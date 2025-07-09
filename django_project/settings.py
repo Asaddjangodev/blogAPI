@@ -37,9 +37,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites", #new
     # 3rd party apps
     "rest_framework",
     "corsheaders",
+    "rest_framework.authtoken", # new
+    "allauth", # new
+    "allauth.account", # new
+    "allauth.socialaccount", # new
+    "dj_rest_auth", # new
+    "dj_rest_auth.registration", # new
+
     # Local
     "accounts.apps.AccountsConfig",
     "posts.apps.PostsConfig",
@@ -48,12 +56,17 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-    ]
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [ # new
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication", # new
+    ],
 }
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "allauth.account.middleware.AccountMiddleware", # new
     "corsheaders.middleware.CorsMiddleware", # new
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -83,10 +96,15 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.request", # new
             ],
         },
     },
 ]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
+
+SITE_ID = 1 # new
 
 WSGI_APPLICATION = "django_project.wsgi.application"
 
