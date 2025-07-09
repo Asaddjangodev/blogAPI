@@ -11,6 +11,16 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser  # Указываем кастомную модель пользователя
     list_display = ["email", "username", "name", "is_staff",]
     fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("name",)}),) # стандартные группы полей (логин, права, группы и т.д.).
-    add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("name",)}),) # Аналогично fieldsets, но для формы создания пользователя. Добавляет поле name при регистрации нового пользователя через админку.
+    # add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("name",)}),) # Аналогично fieldsets, но для формы
+    # создания пользователя. Добавляет поле name при регистрации нового пользователя через админку.
 
+    # Переопределяем add_fieldsets полностью
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'name', 'password1', 'password2'),
+        }),
+    )
+    # исключаем проблемное поле
+    #exclude = ('usable_password',)
 admin.site.register(CustomUser, CustomUserAdmin)
