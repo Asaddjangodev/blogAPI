@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount", # new
     "dj_rest_auth", # new
     "dj_rest_auth.registration", # new
-
+    "drf_spectacular",
     # Local
     "accounts.apps.AccountsConfig",
     "posts.apps.PostsConfig",
@@ -61,6 +61,16 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication", # new
     ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema", # new
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Blog API Project",
+    "DESCRIPTION": "A sample blog to learn about DRF",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "DISABLE_WARNINGS": True,
+
 }
 
 MIDDLEWARE = [
@@ -163,3 +173,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USER_MODEL_EMAIL_FIELD = 'email'
+
+ACCOUNT_SIGNUP_FIELDS = {
+    'username': {
+        'required': True,
+        'label': 'Username',
+    },
+    'email': {
+        'required': True,
+        'label': 'Email',
+    }
+}
+
